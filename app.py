@@ -64,15 +64,6 @@ st.markdown("""
       transform: translateY(-1px);
     }
     
-    /* Estilos para el área de transcripción */
-    .transcription-area {
-      background-color: #f8f9fa;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-    }
     
     .transcription-text {
       background-color: #ffffff;

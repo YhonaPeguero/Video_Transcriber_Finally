@@ -114,9 +114,6 @@ def get_groq_client():
 
 client = get_groq_client()
 
-# @st.cache_resource
-# def get_groq_client():
-#   return Groq(api_key="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")
 
 client = get_groq_client()
 

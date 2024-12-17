@@ -3,6 +3,7 @@ import tempfile
 from dotenv import load_dotenv
 import os
 from groq import Groq
+import streamlit_shadcn_ui as ui
 from moviepy.editor import VideoFileClip
 import time
 
@@ -96,7 +97,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Título de la aplicación
-st.title("🎥 Transcriptor de Videos")
+# Título con estilo personalizado
+st.markdown("""
+    <h1 style="
+        text-align: center;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #4CAF50;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    ">
+      🎥 Transcriptor de Videos
+    </h1>
+""", unsafe_allow_html=True)
+
 
 # Configurar cliente Groq
 
@@ -179,10 +194,13 @@ with st.container():
                 language="es"
               )
             
-            # Mostrar transcripción con mejor formato
-            st.markdown('<div class="transcription-area">', unsafe_allow_html=True)
+            # Mostrar transcripción en el textarea de shadcn
             st.markdown("### 📝 Transcripción:")
-            st.markdown(f'<div class="transcription-text">{transcription.text}</div>', unsafe_allow_html=True)
+            textarea_value = ui.textarea(
+              default_value=transcription.text,
+              placeholder="La transcripción aparecerá aquí...",
+              key="transcription_area"
+            )
             
             # Botón de descarga
             st.download_button(

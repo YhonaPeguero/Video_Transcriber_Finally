@@ -1,0 +1,8 @@
+streamlit
+moviepy>=1.0.3
+numpy==1.23.5
+requests
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==2.1.0+cpu
+torchaudio==2.1.0+cpu
+openai-whisper

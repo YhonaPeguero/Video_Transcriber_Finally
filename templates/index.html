@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transcriptor de Videos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .container {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    
+    .upload-form {
+      margin-bottom: 20px;
+    }
+    
+    .transcription {
+      white-space: pre-wrap;
+      background-color: white;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    .loading {
+      display: none;
+      color: #666;
+      margin: 10px 0;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Transcriptor de Videos</h1>
+    
+    <div class="upload-form">
+      <form id="transcriptionForm">
+        <input type="file" id="videoFile" accept="video/*" required>
+        <button type="submit">Transcribir</button>
+      </form>
+      <div id="loading" class="loading">Procesando video, por favor espere...</div>
+    </div>
+    
+    <div id="result" class="transcription"></div>
+  </div>
+
+  <script>
+    document.getElementById('transcriptionForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData();
+      const videoFile = document.getElementById('videoFile').files[0];
+      const loading = document.getElementById('loading');
+      const result = document.getElementById('result');
+      
+      if (!videoFile) {
+        alert('Por favor seleccione un video');
+        return;
+      }
+      
+      formData.append('video', videoFile);
+      
+      try {
+        loading.style.display = 'block';
+        result.textContent = '';
+        
+        const response = await fetch('/transcribe', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        
+        result.textContent = data.transcription;
+      } catch (error) {
+        result.textContent = `Error: ${error.message}`;
+      } finally {
+        loading.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html> 

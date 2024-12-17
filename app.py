@@ -1,5 +1,6 @@
 import streamlit as st
 import tempfile
+from dotenv import load_dotenv
 import os
 from groq import Groq
 from moviepy.editor import VideoFileClip
@@ -98,9 +99,24 @@ st.markdown("""
 st.title("🎥 Transcriptor de Videos")
 
 # Configurar cliente Groq
+
+# Cargar variables de entorno desde .env
+load_dotenv()
+
+# Configurar cliente Groq
 @st.cache_resource
 def get_groq_client():
-  return Groq(api_key="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")
+  api_key = os.getenv("GROQ_API_KEY")
+  if not api_key:
+    st.error("La clave de la API no está configurada. Verifica el archivo .env")
+    st.stop()
+  return Groq(api_key=api_key)
+
+client = get_groq_client()
+
+# @st.cache_resource
+# def get_groq_client():
+#   return Groq(api_key="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")
 
 client = get_groq_client()
 
